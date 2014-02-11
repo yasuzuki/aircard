@@ -1,0 +1,10 @@
+#!/bin/sh
+echo 'Content-type: text/html'
+echo ''
+echo '<html><body>'
+echo '&lt;ps&gt;'
+echo '<pre>'
+ps
+echo '</pre>'
+echo '</body></html>'
+

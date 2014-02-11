@@ -1,0 +1,13 @@
+#!/bin/sh
+echo 'Content-type: text/html; charset=UTF-8'
+echo ''
+echo '<html>'
+echo '<head>'
+echo '<title>コメント</title>'
+echo '<meta http-equiv="content-type" content="text/html; charset=UTF-8">'
+echo '</head>'
+echo "$WWW_name さん （年齢:$WWW_age）からのコメントです。"
+echo '<pre>'
+echo "$WWW_comments"
+echo '</pre>'
+echo '</body></html>'
