@@ -1,6 +1,11 @@
 twitter:
   stewgate:
-    token: 'your stewgate token'
+    token: 'Your stewgate token'
     post_api: 'http://stewgate-u.appspot.com/api/post/'
   account:
-    yourself: 'your twitter account name'
+    yourself: 'Your twitter account name'
+box:
+  client_id: 'Your Box app client_id'
+  client_secret: 'Your Box app client_secret'
+  access_token: 'Your Box app access_token'
+  upload_folder: '/pictures'

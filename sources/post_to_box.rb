@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 require 'ruby-box'
-require 'yaml'
+require './twitter.rb'
 
 class PostToBox
-  attr_reader :client
-
   AUTPRINT_MRK = "/mnt/sd/MISC/AUTPRINT.MRK"
 
   def initialize
@@ -28,40 +26,37 @@ class PostToBox
         @sections = read_sections.dup
         read_sections.each do |section|
           file = parse_section(section)
-          upload(file) if File.exists?(file_path)
+          upload(file) if !file.nil? && File.exists?(file)
           update_mrk(section)
         end
       rescue
-        post("Error while processing: #{$!}")
+        Twitter.new.post("Error while processing: #{$!}")
       end
     end
   end
 
   def upload file
     @client.upload_file(file, @upload_folder)
-    #post("#{File.basename(file)} uploaded.")
+    Twitter.new.post("#{File.basename(file)} uploaded into Box.")
   rescue
-    #post("Error while ftp put: #{$!}")
+    Twitter.new.post("Error while uploading into Box: #{$!}")
   end
 
   def parse_section section
     lines = section.split("\r\n")
     if lines[0].match(/\[JOB\]/)
-      lines.map do |l|
-        if md = l.match(/^<IMG SRC = "(.+)">/)
-          md[1].sub("..", "/mnt/sd") 
-        end
-      end
+      image_source = lines.find{|l| l.match(/^<IMG SRC = "(.+)">/)}
+      image_source.match(/^<IMG SRC = "(.+)">/)[1].sub("..", "/mnt/sd")
     end
   end
 
   def update_mrk section
     @sections.delete(section)
-    if (@sections.length > 1)
+    unless @sections.length.zero?
       File.write(AUTPRINT_MRK, @sections.join("\r\n"))
     else
       File.unlink(AUTPRINT_MRK)
-      post("All uploads done.")
+      Twitter.new.post("All uploads done.")
     end
   end
 
