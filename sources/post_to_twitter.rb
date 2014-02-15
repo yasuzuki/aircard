@@ -16,7 +16,7 @@ MENTION_TO = config["account"]["yourself"]
 # ------------------------------
 def post_escape string
   string.gsub(/([^ a-zA-Z0-9_.-]+)/) do |match_letters|
-    '%' + match_letters.unpack('H2' * match_letters.bytesize).join('%').upcase
+    "%#{match_letters.unpack('H2' * match_letters.bytesize).join('%').upcase}"
   end.tr(' ', '+')
 end
 
@@ -38,4 +38,4 @@ def post(msg)
   end
 end
 
-post("Hello, Twitter!")
+post ARGV[0]
