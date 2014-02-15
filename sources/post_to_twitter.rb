@@ -6,10 +6,10 @@ require 'yaml'
 # ------------------------------
 # user configuration
 # ------------------------------
-config = YAML.load_file 'config/twitter.yml'
-STEW_GATE_TOKEN = config["stewgate"]["token"]
-STEW_GATE_API = config["stewgate"]["post_api"]
-MENTION_TO = config["account"]["yourself"]
+config = YAML.load_file 'config/settings.yml'
+STEW_GATE_TOKEN = config["twitter"]["stewgate"]["token"]
+STEW_GATE_API = config["twitter"]["stewgate"]["post_api"]
+MENTION_TO = config["twitter"]["account"]["yourself"]
 
 # ------------------------------
 # methods
