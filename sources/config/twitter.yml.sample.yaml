@@ -1,0 +1,5 @@
+stewgate:
+  token: 'your stewgate token'
+  post_api: 'http://stewgate-u.appspot.com/api/post/'
+account:
+  yourself: 'your twitter account name'
