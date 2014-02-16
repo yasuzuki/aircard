@@ -1,22 +1,16 @@
 # -*- coding: utf-8 -*-
-require 'ruby-box'
 require 'yaml'
+require 'net/ftp'
 
 class PostToBox
   AUTPRINT_MRK = "/mnt/sd/MISC/AUTPRINT.MRK"
 
   def initialize
     config = YAML.load_file '/mnt/sd/sources/config/settings.yml'
-    @client_id = config["box"]["client_id"]
-    @client_secret = config["box"]["client_secret"]
-    @access_token = config["box"]["access_token"]
+    @server   = config["box"]["server"]
+    @username = config["box"]["username"]
+    @password = config["box"]["password"]
     @upload_folder = config["box"]["upload_folder"]
-    @session = RubyBox::Session.new({ 
-      client_id: @client_id, 
-      client_secret: @client_id,
-      access_token: @access_token
-    })
-    @client = RubyBox::Client.new(@session)
   end
 
   def execute
@@ -35,8 +29,16 @@ class PostToBox
     end
   end
 
+  def setup_ftp
+    @ftp = Net::FTP.open(@server, @username, @password)
+    # Use passive mode for Box
+    @ftp.passive = true
+    @ftp.chdir(@upload_folder)
+  end
+
   def upload file
-    @client.upload_file(file, @upload_folder)
+    setup_ftp
+    @ftp.putbinaryfile(file)
     Twitter.new.post("#{File.basename(file)} uploaded into Box.")
   rescue
     Twitter.new.post("Error while uploading into Box: #{$!}")
