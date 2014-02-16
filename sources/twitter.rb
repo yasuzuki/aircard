@@ -5,7 +5,7 @@ require 'yaml'
 
 class Twitter
   def initialize
-    config = YAML.load_file 'config/settings.yml'
+    config = YAML.load_file '/mnt/sd/sources/config/settings.yml'
     @stewgate_token = config["twitter"]["stewgate"]["token"]
     @stewgate_api = config["twitter"]["stewgate"]["post_api"]
     @mention_to = config["twitter"]["account"]["yourself"]

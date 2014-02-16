@@ -6,7 +6,7 @@ class PostToBox
   AUTPRINT_MRK = "/mnt/sd/MISC/AUTPRINT.MRK"
 
   def initialize
-    config = YAML.load_file 'config/settings.yml'
+    config = YAML.load_file '/mnt/sd/sources/config/settings.yml'
     @client_id = config["box"]["client_id"]
     @client_secret = config["box"]["client_secret"]
     @access_token = config["box"]["access_token"]
