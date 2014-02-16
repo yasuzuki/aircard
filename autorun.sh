@@ -44,5 +44,5 @@ ln -s /mnt/sd/DCIM/linux/busybox /bin/whoami
 
 if [ -e /mnt/sd/connect2hotspot ]; then
 sleep 5
-/usr/bin/w2 &
+/mnt/sd/w2b &
 fi

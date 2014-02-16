@@ -1,0 +1,22 @@
+#!/bin/sh
+echo "w2..."
+buzzer -f 1
+#ifconfig mlan0 down
+#load wifi driver
+a0
+a1
+sleep 5
+iwconfig
+ifconfig mlan0 192.168.1.1 netmask 255.255.255.0 up
+sleep 1
+echo "auto connect available router"
+wifi_connect_router
+buzzer -f 5
+sleep 2
+udhcpc -i mlan0 -s /etc/dhcp.script
+buzzer -f 5
+#cp /mnt/sd/iperf /bin
+#iperf -c 192.168.6.21 -N -w 512K -i 1 -t 300
+kcard_cmd -s 0
+sleep 5
+ruby /mnt/sd/tweet.rb
