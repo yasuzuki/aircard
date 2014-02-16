@@ -7,5 +7,5 @@ twitter:
 box:
   username: 'Your username'
   password: 'Your password'
-  ftp_server: 'ftp.box.com'
+  server: 'ftp.box.com'
   upload_folder: '/pictures'
