@@ -14,7 +14,7 @@ class Twitter
   def post(msg)
     params = {
       "_t" => @stewgate_token,
-      "msg" => "#{@mention_to} " + msg,
+      "msg" => "#{@mention_to} #{msg} (#{generate_signature})"
     }
     begin
       uri = URI::parse @stewgate_api
@@ -34,5 +34,10 @@ class Twitter
     string.gsub(/([^ a-zA-Z0-9_.-]+)/) do |match_letters|
       "%#{match_letters.unpack('H2' * match_letters.bytesize).join('%').upcase}"
     end.tr(' ', '+')
+  end
+
+  def generate_signature
+  generator = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a
+  return 4.times.map{ generator[rand(generator.size)] }.join
   end
 end
