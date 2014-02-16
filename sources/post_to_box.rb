@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'ruby-box'
-require './twitter.rb'
+require 'yaml'
 
 class PostToBox
   AUTPRINT_MRK = "/mnt/sd/MISC/AUTPRINT.MRK"
