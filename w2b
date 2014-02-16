@@ -19,4 +19,4 @@ buzzer -f 5
 #iperf -c 192.168.6.21 -N -w 512K -i 1 -t 300
 kcard_cmd -s 0
 sleep 5
-ruby /mnt/sd/tweet.rb
+ruby /mnt/sd/upload.rb
