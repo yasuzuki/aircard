@@ -34,7 +34,7 @@ class PostToBox
         uploading_files.sort.each do |filename|
           file = "#{PHOTO_FILES_PATH}/#{filename}"
           upload(file) if !file.nil? && File.exists?(file)
-          update_last(file)
+          update_last(filename)
         end
         Twitter.new.post("All uploads done.")
       end
@@ -80,7 +80,7 @@ class PostToBox
     end
   end
 
-  def update_last file
+  def update_last filename
     File.write(LAST_UPDATED_FILE, file)
   end
 
