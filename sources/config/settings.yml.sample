@@ -1,3 +1,5 @@
+file:
+  filename_for_setup: 'For setup filename'
 twitter:
   stewgate:
     token: 'Your stewgate token'

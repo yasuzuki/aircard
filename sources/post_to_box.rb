@@ -4,6 +4,8 @@ require 'net/ftp'
 
 class PostToBox
   AUTPRINT_MRK = "/mnt/sd/MISC/AUTPRINT.MRK"
+  LAST_UPDATED_FILE = "/mnt/sd/MISC/LASTFILE.txt"
+  PHOTO_FILES_PATH = "/mnt/sd/DCIM/200MSDCF"
 
   def initialize
     config = YAML.load_file '/mnt/sd/sources/config/settings.yml'
@@ -14,8 +16,9 @@ class PostToBox
   end
 
   def execute
-    if File.exists?(AUTPRINT_MRK)
-      begin
+    begin
+      # Printable files exists?
+      if File.exists?(AUTPRINT_MRK)
         read_sections = File.read(AUTPRINT_MRK).split("\r\n\r\n")
         @sections = read_sections.dup
         read_sections.each do |section|
@@ -23,10 +26,25 @@ class PostToBox
           upload(file) if !file.nil? && File.exists?(file)
           update_mrk(section)
         end
-      rescue
-        Twitter.new.post("Error while processing: #{$!}")
+      # Uploading latest files
+      else
+        setup_last_updated_file unless File.exists?(LAST_UPDATED_FILE)
+        last_updated_file = File.read(LAST_UPDATED_FILE)
+        uploading_files = Dir::entries(PHOTO_FILES_PATH).select{|file| file > last_updated_file }
+        uploading_files.each do |filename|
+          file = "#{PHOTO_FILES_PATH}/#{filename}"
+          upload(file) if !file.nil? && File.exists?(file)
+          update_last(file)
+        end
+        Twitter.new.post("All uploads done.")
       end
+    rescue
+      Twitter.new.post("Error while processing: #{$!}")
     end
+  end
+
+  def setup_last_updated_file
+    File.write(LAST_UPDATED_FILE, config["file"]["filename_for_setup"])
   end
 
   def setup_ftp
@@ -60,6 +78,10 @@ class PostToBox
       File.unlink(AUTPRINT_MRK)
       Twitter.new.post("All uploads done.")
     end
+  end
+
+  def update_last file
+    File.write(LAST_UPDATED_FILE, file)
   end
 
 end
