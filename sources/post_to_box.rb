@@ -8,11 +8,11 @@ class PostToBox
   PHOTO_FILES_PATH = "/mnt/sd/DCIM/200MSDCF"
 
   def initialize
-    config = YAML.load_file '/mnt/sd/sources/config/settings.yml'
-    @server   = config["box"]["server"]
-    @username = config["box"]["username"]
-    @password = config["box"]["password"]
-    @upload_folder = config["box"]["upload_folder"]
+    @config ||= YAML.load_file '/mnt/sd/sources/config/settings.yml'
+    @server   = @config["box"]["server"]
+    @username = @config["box"]["username"]
+    @password = @config["box"]["password"]
+    @upload_folder = @config["box"]["upload_folder"]
   end
 
   def execute
@@ -44,7 +44,7 @@ class PostToBox
   end
 
   def setup_last_updated_file
-    File.write(LAST_UPDATED_FILE, config["file"]["filename_for_setup"])
+    File.write(LAST_UPDATED_FILE, @config["file"]["filename_for_setup"])
   end
 
   def setup_ftp
