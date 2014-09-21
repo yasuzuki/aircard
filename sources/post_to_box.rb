@@ -31,7 +31,7 @@ class PostToBox
         setup_last_updated_file unless File.exists?(LAST_UPDATED_FILE)
         last_updated_file = File.read(LAST_UPDATED_FILE)
         uploading_files = Dir::entries(PHOTO_FILES_PATH).select{|file| file > last_updated_file }
-        uploading_files.each do |filename|
+        uploading_files.sort.each do |filename|
           file = "#{PHOTO_FILES_PATH}/#{filename}"
           upload(file) if !file.nil? && File.exists?(file)
           update_last(file)
