@@ -81,7 +81,7 @@ class PostToBox
   end
 
   def update_last filename
-    File.write(LAST_UPDATED_FILE, file)
+    File.write(LAST_UPDATED_FILE, filename)
   end
 
 end
